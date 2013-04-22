@@ -89,12 +89,6 @@ class SoftwareLicenseAPI {
                     ->send();
             $siteLicenseArray = json_decode($newSiteLicense, true);
             return $siteLicenseArray;
-        } catch (Pest_BadRequest $e) { //if 400 bad request resposne.
-			$response = array (
-			'message' => "<span class='error'> <br>" .  $e->getMessage() . "<br></span>",
-			'status' => 'error'
-				);
-			return json_encode($response);
         } catch (Exception $e) { //some other exception
 			$response = array (
 			'message' => "<span class='error'> <br>Caught exception when creating a SiteLicense : " .  $e->getMessage() . "<br><span class='error'> ",

@@ -5,7 +5,7 @@ This is the official PHP library needed to work with the easy software licensing
 
 It's simple to use. Here's an example:
 
-`
+```php
 // include the API class
 require_once 'SoftwareLicenseAPI.php';
 // set your APIKEY
@@ -26,7 +26,7 @@ print_r($siteLicense);
 // get a single SiteLicense
 $siteLicense = $api->getSiteLicense($licenseKey);
 print_r($siteLicense);
-`
+```
 
 Documentation
 =============

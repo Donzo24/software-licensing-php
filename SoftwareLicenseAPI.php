@@ -25,7 +25,7 @@ class SoftwareLicenseAPI {
 		"disposition" => "",
 		"validationMethod" => "LICENSE_EXISTS_NOT_EXPIRED" //default validation method
 	);
-    private $apikey;
+	private $apikey;
     
 	public function __construct($apikey = null) {
 		$this->apikey = $apikey;

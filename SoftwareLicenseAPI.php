@@ -12,9 +12,9 @@
  */
  
 class SoftwareLicenseAPI {
-    const serviceBaseURI = "https://api.easysoftwarelicensing.com/v1";
-    private static $siteLicenseTemplate = array(
-        "licenseKey" => "",
+	const serviceBaseURI = "https://api.easysoftwarelicensing.com/v1";
+	private static $siteLicenseTemplate = array(
+		"licenseKey" => "",
 		"expiration" => null,
 		"deleted" => null,
 		"domain" => "",
@@ -24,32 +24,32 @@ class SoftwareLicenseAPI {
 		"ipAddress" => "",
 		"disposition" => "",
 		"validationMethod" => "LICENSE_EXISTS_NOT_EXPIRED" //default validation method
-    );
+	);
     private $apikey;
     
-    public function __construct($apikey = null) {
-        $this->apikey = $apikey;
-    }
+	public function __construct($apikey = null) {
+		$this->apikey = $apikey;
+	}
     
-    public function getSiteLicenseTemplate() {
-        return self::$siteLicenseTemplate;
-    }
+	public function getSiteLicenseTemplate() {
+		return self::$siteLicenseTemplate;
+	}
     
-    public function getSiteLicenses($page = 1) {
-       
+	public function getSiteLicenses($page = 1) {
+
 		$header = array('ESL-API-Key:' . $this->apikey);
 		$siteLicenses = $this->cURLExecute(self::serviceBaseURI.'/sitelicenses/page/' . $page, $header, 'GET');
 		return $siteLicenses;
 
-    }
+	}
     
-    public function getSiteMultipleLicenses($licenseKeys) {
-	
+	public function getSiteMultipleLicenses($licenseKeys) {
+
 		$header = array('Content-type: application/json', 'ESL-API-Key:' . $this->apikey);
 		$siteLicenseArray = $this->cURLExecute(self::serviceBaseURI.'/sitelicenses/multiple', $header, 'POST', json_encode($licenseKeys));
 		return $siteLicenseArray;
-		
-    }
+
+	}
 	
 	public function getSiteLicense($licenseKey, $domain = null) {
 	
@@ -65,23 +65,23 @@ class SoftwareLicenseAPI {
 		
     }
     
-    public function updateSiteLicense($siteLicense) {
-		
+	public function updateSiteLicense($siteLicense) {
+
 		$header = array('Content-type: application/json', 'ESL-API-Key:' . $this->apikey);
 		$siteLicenseArray = $this->cURLExecute(self::serviceBaseURI.'/sitelicenses/' . $siteLicense['licenseKey'], $header, 'PUT', json_encode($siteLicense));
 		return $siteLicenseArray;
-		
-    }
+
+	}
     
-    public function deleteSiteLicense($licenseKey) {
-		
+	public function deleteSiteLicense($licenseKey) {
+
 		$header = array('ESL-API-Key:' . $this->apikey);
 		$result = $this->cURLExecute(self::serviceBaseURI.'/sitelicenses/' . $licenseKey, $header, 'DELETE');
 		return $result;
-		
-    }
+
+	}
     
-    public function createSiteLicense($newSiteLicenseContainer) {
+	public function createSiteLicense($newSiteLicenseContainer) {
 	
 		try {
 
@@ -99,7 +99,7 @@ class SoftwareLicenseAPI {
 			return json_encode($response);
 
 		}
-    }
+	}
 	protected function cURLExecute($url, $header, $request, $fields = null) {
 		 
 		$ch = curl_init();
@@ -107,17 +107,17 @@ class SoftwareLicenseAPI {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
-		
+
 		if ( $request == 'POST' || $request == 'PUT' ) { 
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
 		}
 		if ( $header != null ) {
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 		}
-		
+
 		$response = curl_exec($ch);
 		curl_close($ch);
-		
+
 		return json_decode($response, true);
 	
 	}

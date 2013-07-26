@@ -53,15 +53,16 @@ class SoftwareLicenseAPI {
 	
 	public function getSiteLicense($licenseKey, $domain = null) {
 	
-        if ( $this->apikey != null ) 
+		if ( $this->apikey != null ) 
 			$header = array('ESL-API-Key:' . $this->apikey); // full sitelicense representation 
 		else if ( $domain != null ) 
 			$header = array('ESL-domain:' . $domain); // minimal sitelicense representation with domain validation
 		else  
 			$header = null; // minimal sitelicense representation 
-			
+
 		$siteLicenseArray = $this->cURLExecute(self::serviceBaseURI.'/sitelicenses/' . $licenseKey, $header, 'GET');
 		return $siteLicenseArray;
+		
     }
     
     public function updateSiteLicense($siteLicense) {
@@ -82,20 +83,22 @@ class SoftwareLicenseAPI {
     
     public function createSiteLicense($newSiteLicenseContainer) {
 	
-        try {
-		
+		try {
+
 			$header = array('Content-type: application/json', 'ESL-API-Key:' . $this->apikey);
 			$siteLicenseArray = $this->cURLExecute(self::serviceBaseURI.'/sitelicenses', $header, 'POST', json_encode($newSiteLicenseContainer));
 			return $siteLicenseArray;
-			
-        } catch (Exception $e) { //some other exception
+
+		} catch (Exception $e) { //some other exception
+		
+		
 			$response = array (
 			'message' => "<span class='error'> <br>Caught exception when creating a SiteLicense : " .  $e->getMessage() . "<br><span class='error'> ",
 			'status' => 'error'
-				);
+			);
 			return json_encode($response);
-            
-        }
+
+		}
     }
 	protected function cURLExecute($url, $header, $request, $fields = null) {
 		 
